@@ -1,16 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-//
-int fibonacci(int n){
-    int first = 0;
-    int second = 1;
-    if (n < 2){
-        return n;
+double PHI = 1.6180339;
+int f[6] = { 0, 1, 1, 2, 3, 5 };
+void fib(int n)
+{
+    for(int i=0;i<6;i++){
+        cout<<f[i]<<" ";
     }
-    for (int i = 1; i < n; i++){
-        second = first + second;
-        first = second - first;
+    int t = 5, fn = 5;
+    while (t < n) {
+        fn = round(fn * PHI);
+        cout<<fn<<" ";
+        t++;
     }
-    return second;
+}
+int main()
+{
+    int n = 9;
+    cout << n << "Fibonacci series using Gollden ratio = " <<endl;
+    fib(n);
+    return 0;
 }
