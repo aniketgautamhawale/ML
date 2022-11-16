@@ -1,25 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
-int dp[100][100];
-
-
-int KnapSack(int wt[], int val[], int W, int n){
-    if (W == 0 || n == 0) return 0;
-    
-    if (dp[n][W]!= -1) return dp[n][W];
-    if (wt[n-1] <= W){
-        return dp[n][W] = max(val[n-1] + KnapSack(wt, val, W-wt[n-1], n-1), KnapSack(wt, val, W, n-1));
-    }else{
-        return dp[n][W] = KnapSack(wt, val, W, n-1);
-    }
+ 
+int max(int a, int b)
+{
+    return (a > b) ? a : b;
 }
+ 
+int knapSack(int W, int wt[], int val[], int n)
+{
+    int i, w;
+      vector<vector<int>> K(n + 1, vector<int>(W + 1));
 
-
-int main(){
-    int wt[] = {2, 1, 3, 2};
-    int val[] = {12, 10, 20, 15};
-    int W = 5;
-    memset(dp, -1, sizeof(dp));
-    cout << KnapSack(wt, val, W, 4)<< endl;
+    for(i = 0; i <= n; i++)
+    {
+        for(w = 0; w <= W; w++)
+        {
+            if (i == 0 || w == 0)
+                K[i][w] = 0;
+            else if (wt[i - 1] <= w)
+                K[i][w] = max(val[i - 1] +
+                                K[i - 1][w - wt[i - 1]],
+                                K[i - 1][w]);
+            else
+                K[i][w] = K[i - 1][w];
+        }
+    }
+    return K[n][W];
+}
+ 
+int main()
+{
+    int val[] = { 60, 100, 120 };
+    int wt[] = { 10, 20, 30 };
+    int W = 50;
+    int n = sizeof(val) / sizeof(val[0]);
+     
+    cout << knapSack(W, wt, val, n);
+     
     return 0;
 }
